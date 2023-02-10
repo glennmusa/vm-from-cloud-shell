@@ -2,7 +2,7 @@
 #
 # install-space-sdk.sh
 #
-# This script installs software prerequisites
+# This script installs the Azure Space SDK's software prerequisites
 #
 # usage:
 #
@@ -11,6 +11,7 @@
 DAPR_HELM_CHART_DOWNLOAD_URI="https://github.com/dapr/helm-charts/raw/master/dapr-1.8.4.tgz"
 DAPR_VERSION="1.8"
 INSTALL_SCRIPT_URI_AZ="https://aka.ms/InstallAzureCLIDeb"
+INSTALL_SCRIPT_URI_DOCKER="https://get.docker.com"
 INSTALL_SCRIPT_URI_HELM="https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3"
 INSTALL_SCRIPT_URI_K3S="https://get.k3s.io"
 INSTALL_SCRIPT_VER_K3S="v1.25.2+k3s1"
@@ -64,23 +65,30 @@ install_dapr() {
 }
 
 install_docker() {
-    # https://docs.docker.com/engine/install/ubuntu/
+    # https://docs.docker.com/engine/install/ubuntu/#install-using-the-convenience-script
     echo "Installing Docker..."
-    sudo apt-get install -y \
-        ca-certificates \
-        curl \
-        gnupg \
-        lsb-release
-    sudo mkdir -m 0755 -p /etc/apt/keyrings
+    curl -fsSL "$INSTALL_SCRIPT_URI_DOCKER" | sudo bash
+    sudo chmod 666 /var/run/docker.sock
+}
+
+install_docker_compose() {
+    echo "Installing Docker Compose..."
+    sudo curl \
+        -L "https://github.com/docker/compose/releases/download/$DOCKER_COMPOSE_VERSION/docker-compose-$(uname -s)-$(uname -m)" \
+        -o /usr/local/bin/docker-compose
+
+    chmod +x /usr/local/bin/docker-compose
+}
+
+install_docker_ce() {
+    echo "Installing docker-ce & docker-ce-cli ..."
+    sudo apt install -y apt-transport-https ca-certificates curl software-properties-common
     curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-    sudo apt-get update -y
-    curl -fsSL https://get.docker.com -o get-docker.sh
-    echo "install a specific version of Docker 20.10.23"
-    sed -i 's/VERSION="${VERSION#v}"/VERSION="20.10.23"/' get-docker.sh
-    sudo sh get-docker.sh
-    sudo groupadd docker
-    sudo usermod -aG docker "$(whoami)" && echo "user added"
-    newgrp docker && echo "user saved to group"
+    sudo add-apt-repository -y "deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable"
+
+    echo "Setting docker-ce version compatibilty..."
+    VERSION_STRING="5:20.10.23~3-0~ubuntu-focal"
+    sudo apt-get install -y docker-ce=$VERSION_STRING docker-ce-cli=$VERSION_STRING containerd.io docker-buildx-plugin docker-compose-plugin --allow-downgrades
 }
 
 install_jq() {
@@ -106,6 +114,8 @@ main() {
     install_jq
     install_oras
     install_docker
+    install_docker_compose
+    install_docker_ce
 }
 
 main
