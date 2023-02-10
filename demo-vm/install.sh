@@ -10,6 +10,7 @@
 
 DAPR_HELM_CHART_DOWNLOAD_URI="https://github.com/dapr/helm-charts/raw/master/dapr-1.8.4.tgz"
 DAPR_VERSION="1.8"
+DOCKER_COMPOSE_VERSION="v2.11.2"
 INSTALL_SCRIPT_URI_AZ="https://aka.ms/InstallAzureCLIDeb"
 INSTALL_SCRIPT_URI_DOCKER="https://get.docker.com"
 INSTALL_SCRIPT_URI_HELM="https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3"
