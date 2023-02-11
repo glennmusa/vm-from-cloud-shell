@@ -1,8 +1,8 @@
 #!/bin/bash
 #
-# install-space-sdk.sh
+# install.sh
 #
-# This script installs the Azure Space SDK's software prerequisites
+# This script installs software prerequisites
 #
 # usage:
 #
