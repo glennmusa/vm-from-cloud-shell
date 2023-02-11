@@ -208,14 +208,14 @@ output_paths_to_user() {
 reset_log() {
   # removes any log from previous runs
   if [[ -f "$LOG_FILE" ]]; then
-    sudo rm "$LOG_FILE"
+    rm "$LOG_FILE"
   fi
 
   # creates a new log for this run
-  sudo mkdir -p "$LOG_DIR"
-  sudo chmod -R 777 "$LOG_DIR"
-  sudo touch "$LOG_FILE"
-  sudo chmod 777 "$LOG_FILE"
+  mkdir -p "$LOG_DIR"
+  chmod -R 777 "$LOG_DIR"
+  touch "$LOG_FILE"
+  chmod 777 "$LOG_FILE"
 }
 
 main() {
