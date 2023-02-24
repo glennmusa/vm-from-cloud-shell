@@ -124,7 +124,7 @@ deploy_vm() {
   az vm create \
     --resource-group "$RG_NAME" \
     --name "$VM_NAME" \
-    --image "Canonical:0001-com-ubuntu-server-jammy:22_04-lts:22.04.202302140" \
+    --image "Canonical:0001-com-ubuntu-server-focal:20_04-lts:20.04.202302090" \
     --admin-username "azureuser" \
     --ssh-key-values "$SSH_KEY_PATH.pub" \
     --public-ip-address "$PIP_NAME" \
