@@ -227,7 +227,7 @@ main() {
   create_hosts_entry
   copy_github_credentials
   clone_repositories
-  run_prereqs_install
+  # run_prereqs_install
   info_log "Finished"
   output_paths_to_user
 }
